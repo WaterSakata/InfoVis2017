@@ -22,10 +22,10 @@ function main()
     var cube = new THREE.Mesh( geometry, material );
     scene.add( cube );
 
-    var light = new THREE.PointLight( 0xff0000 );
+    var light = new THREE.DirectionalLight( 0xff0000 );
     light.position.set( 1, 1, 1 );
     scene.add( light );
-    
+
     loop();
 
     function loop()
