@@ -13,35 +13,35 @@ function main()
   camera.position.set( 0, 0, 5 );
   scene.add( camera );
 
-    var light = new THREE.PointLight();
-    light.position.set( 5, 5, 5 );
-    scene.add( light );
+  var light = new THREE.PointLight();
+  light.position.set( 5, 5, 5 );
+  scene.add( light );
 
-    var renderer = new THREE.WebGLRenderer();
-    renderer.setSize( width, height );
-    document.body.appendChild( renderer.domElement );
+  var renderer = new THREE.WebGLRenderer();
+  renderer.setSize( width, height );
+  document.body.appendChild( renderer.domElement );
 
-    var geometry = new THREE.TorusKnotGeometry( 1, 0.3, 100, 20 );
+  var geometry = new THREE.TorusKnotGeometry( 1, 0.3, 100, 20 );
 	var material = new THREE.ShaderMaterial({
-            vertexColors: THREE.VertexColors,
-            vertexShader: document.getElementById('gouraud_2.vert').text,
-            fragmentShader: document.getElementById('gouraud.frag').text,
-	    uniforms: {
-		light_position: { type: 'v3', value: light.position },
-		camera_position: { type: 'v3', value: camera.position }
-	    }
+    vertexColors: THREE.VertexColors,
+    vertexShader: document.getElementById('gouraud_phong.vert').text,
+    fragmentShader: document.getElementById('gouraud.frag').text,
+	  uniforms: {
+		  light_position: { type: 'v3', value: light.position }, 
+      camera_position: { type: 'v3', value: camera.position }
+	   }
 	});
 
-    var torus_knot = new THREE.Mesh( geometry, material );
-    scene.add( torus_knot );
+  var torus_knot = new THREE.Mesh( geometry, material );
+  scene.add( torus_knot );
 
-    loop();
+  loop();
 
-    function loop()
-    {
-        requestAnimationFrame( loop );
-        torus_knot.rotation.x += 0.01;
-        torus_knot.rotation.y += 0.01;
-        renderer.render( scene, camera );
-    }
+  function loop()
+  {
+    requestAnimationFrame( loop );
+    torus_knot.rotation.x += 0.01;
+    torus_knot.rotation.y += 0.01;
+    renderer.render( scene, camera );
+  }
 }
