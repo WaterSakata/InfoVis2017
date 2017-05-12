@@ -24,7 +24,7 @@ function main(flag)
     var geometry = new THREE.TorusKnotGeometry( 1, 0.3, 100, 20 );
     var material;
 
-  if(flag) {
+  if(flag == 1) {
     material = new THREE.ShaderMaterial({
       vertexColors: THREE.VertexColors,
       vertexShader: document.getElementById('gouraud_lamb.vert').text,
@@ -33,11 +33,30 @@ function main(flag)
         light_position: { type: 'v3', value: light.position }
        }
     });
-  } else {
+  } else if (flag == 2) {
     material = new THREE.ShaderMaterial({
       vertexColors: THREE.VertexColors,
       vertexShader: document.getElementById('gouraud_phong.vert').text,
       fragmentShader: document.getElementById('gouraud.frag').text,
+      uniforms: {
+        light_position: { type: 'v3', value: light.position }, 
+        camera_position: { type: 'v3', value: camera.position }
+      }
+    });
+  } else if (flag == 3) {
+    material = new THREE.ShaderMaterial({
+      vertexColors: THREE.VertexColors,
+      vertexShader: document.getElementById('phong.vert').text,
+      fragmentShader: document.getElementById('phong_lamb.frag').text,
+      uniforms: {
+        light_position: { type: 'v3', value: light.position }, 
+     }
+    });
+  } else {
+    material = new THREE.ShaderMaterial({
+      vertexColors: THREE.VertexColors,
+      vertexShader: document.getElementById('phong.vert').text,
+      fragmentShader: document.getElementById('phong_phong.frag').text,
       uniforms: {
         light_position: { type: 'v3', value: light.position }, 
         camera_position: { type: 'v3', value: camera.position }
