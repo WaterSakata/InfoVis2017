@@ -88,15 +88,12 @@ function main()
         var S0 = Math.round((scalars[ id[0] ] - 0.1) * 255 / 0.7);
         var S1 = Math.round((scalars[ id[1] ] - 0.1) * 255 / 0.7);
 	var S2 = Math.round((scalars[ id[2] ] - 0.1) * 255 / 0.7);
-	var S3 = Math.round((scalars[ id[3] ] - 0.1) * 255 / 0.7);
         var C0 = new THREE.Color().setHex( cmap[ S0 ][1] );
         var C1 = new THREE.Color().setHex( cmap[ S1 ][1] );
         var C2 = new THREE.Color().setHex( cmap[ S2 ][1] );
-//        var C3 = new THREE.Color().setHex( cmap[ S3 ][1] );
         geometry.faces[i].vertexColors.push( C0 );
         geometry.faces[i].vertexColors.push( C1 );
         geometry.faces[i].vertexColors.push( C2 );
-//	geometry.faces[i].vertexColors.push( C3 );
     }
 
     var triangle = new THREE.Mesh( geometry, material );
