@@ -132,6 +132,18 @@ function Isosurfaces( volume, isovalue )
 
     function interpolated_vertex( v0, v1, s )
     {
-        return new THREE.Vector3().addVectors( v0, v1 ).divideScalar( 2 );
+        var id0 = v0.x + v0.y * volume.numberOfNodesPerLine() + v0.z * volume.numberOfNodesPerSlice(); 
+        var id1 = v1.x + v1.y * volume.numberOfNodesPerLine() + v1.z * volume.numberOfNodesPerSlice();
+
+        var v0_vol = volume.values[id0][0]; 
+        var v1_vol = volume.values[id1][0];
+
+        var t = ( s - v0_vol) / ( v1_vol - v0_vol );
+        var interp_x = KVS.Mix( v0.x, v1.x, t);
+        var interp_y = KVS.Mix( v0.y, v1.y, t);
+        var interp_z = KVS.Mix( v0.z, v1.z, t);
+
+        return new THREE.Vector3(interp_x, interp_y, interp_z);
+        //return new THREE.Vector3().addVectors( v0, v1 ).divideScalar( 2 );
     }
 }
