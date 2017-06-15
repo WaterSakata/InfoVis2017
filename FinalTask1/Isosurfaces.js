@@ -1,15 +1,27 @@
-function Isosurfaces( volume, isovalue, light, camera )
+function Isosurfaces( volume, isovalue, light, camera, reflection )
 {
     var geometry = new THREE.Geometry();
-    var material = new THREE.ShaderMaterial({
-        vertexColors: THREE.VertexColors, 
-        vertexShader: document.getElementById('phong.vert').text, 
-        fragmentShader: document.getElementById('phong.frag').text, 
-        uniforms: {
-            light_position: { type: 'v3', value: light.position }, 
-            camera_position: { type: 'v3', value: camera.position }
-        }
-    });
+    if (reflection) {
+        var material = new THREE.ShaderMaterial({
+            vertexColors: THREE.VertexColors, 
+            vertexShader: document.getElementById('phong.vert').text, 
+            fragmentShader: document.getElementById('lamb_phong.frag').text, 
+            uniforms: {
+                light_position: { type: 'v3', value: light.position }, 
+                camera_position: { type: 'v3', value: camera.position }
+            }
+        });        
+    } else {
+        var material = new THREE.ShaderMaterial({
+            vertexColors: THREE.VertexColors,
+            vertexShader: document.getElementById('phong.vert').text,
+            fragmentShader: document.getElementById('phong_phong.frag').text,
+            uniforms: {
+                light_position: { type: 'v3', value: light.position },
+                camera_position: { type: 'v3', value: camera.position }
+            }
+        });
+    }
 
     var smin = volume.min_value;
     var smax = volume.max_value;
