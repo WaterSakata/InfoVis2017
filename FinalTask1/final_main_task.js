@@ -4,6 +4,7 @@ function main()
     var screen = new KVS.THREEScreen();
 
     var reflection = true;
+    var shading = true;
 
     var isovalue = 128;
 
@@ -20,7 +21,7 @@ function main()
         isovalue = this.value;
         display.setValue(this.value);
         screen.scene.remove( surfaces );
-        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection );
+        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
         screen.scene.add( surfaces );
     }, false);
 
@@ -30,13 +31,29 @@ function main()
     lamb_button.addEventListener("click", function() {
         reflection = true;
         screen.scene.remove( surfaces );
-        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection );
+        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
         screen.scene.add( surfaces );
     }, false);
     phong_button.addEventListener("click", function() {
         reflection = false;
         screen.scene.remove( surfaces );
-        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection );
+        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
+        screen.scene.add( surfaces );
+    }, false);
+
+    var gouraud_button = document.getElementById("gouraud_shad");
+    var phong_shad_button = document.getElementById("phong_shad");
+
+    gouraud_button.addEventListener("click", function() {
+        shading = true;
+        screen.scene.remove( surfaces );
+        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
+        screen.scene.add( surfaces );
+    }, false);
+    phong_shad_button.addEventListener("click", function() {
+        shading = false;
+        screen.scene.remove( surfaces );
+        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
         screen.scene.add( surfaces );
     }, false);
 
@@ -49,7 +66,7 @@ function main()
     var bounds = Bounds( volume );
     screen.scene.add( bounds );
 
-    var surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection );
+    var surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
     screen.scene.add( surfaces );
 
     document.addEventListener( 'mousemove', function() {

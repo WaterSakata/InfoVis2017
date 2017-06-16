@@ -1,26 +1,50 @@
-function Isosurfaces( volume, isovalue, light, camera, reflection )
+function Isosurfaces( volume, isovalue, light, camera, reflection, shading )
 {
     var geometry = new THREE.Geometry();
     if (reflection) {
-        var material = new THREE.ShaderMaterial({
-            vertexColors: THREE.VertexColors, 
-            vertexShader: document.getElementById('phong.vert').text, 
-            fragmentShader: document.getElementById('lamb_phong.frag').text, 
-            uniforms: {
-                light_position: { type: 'v3', value: light.position }, 
-                camera_position: { type: 'v3', value: camera.position }
-            }
-        });        
+        if (shading) {
+            var material = new THREE.ShaderMaterial({
+                vertexColors: THREE.VertexColors, 
+                vertexShader: document.getElementById('gouraud_lamb.vert').text, 
+                fragmentShader: document.getElementById('gouraud.frag').text, 
+                uniforms: {
+                    light_position: { type: 'v3', value: light.position }, 
+                    camera_position: { type: 'v3', value: camera.position }
+                }
+            });                 
+        } else {
+            var material = new THREE.ShaderMaterial({
+                vertexColors: THREE.VertexColors,
+                vertexShader: document.getElementById('phong.vert').text,
+                fragmentShader: document.getElementById('phong_lamb.frag').text, 
+                uniforms: {
+                    light_position: { type: 'v3', value: light.position },
+                    camera_position: { type: 'v3', value: camera.position }
+                }
+            });
+        }   
     } else {
-        var material = new THREE.ShaderMaterial({
-            vertexColors: THREE.VertexColors,
-            vertexShader: document.getElementById('phong.vert').text,
-            fragmentShader: document.getElementById('phong_phong.frag').text,
-            uniforms: {
-                light_position: { type: 'v3', value: light.position },
-                camera_position: { type: 'v3', value: camera.position }
-            }
-        });
+        if (shading) {
+            var material = new THREE.ShaderMaterial({
+                vertexColors: THREE.VertexColors, 
+                vertexShader: document.getElementById('gouraud_phong.vert').text, 
+                fragmentShader: document.getElementById('gouraud.frag').text, 
+                uniforms: {
+                    light_position: { type: 'v3', value: light.position }, 
+                    camera_position: { type: 'v3', value: camera.position }
+                }
+            });                 
+        } else {
+            var material = new THREE.ShaderMaterial({
+                vertexColors: THREE.VertexColors,
+                vertexShader: document.getElementById('phong.vert').text,
+                fragmentShader: document.getElementById('phong_phong.frag').text, 
+                uniforms: {
+                    light_position: { type: 'v3', value: light.position },
+                    camera_position: { type: 'v3', value: camera.position }
+                }
+            });
+        }   
     }
 
     var smin = volume.min_value;
