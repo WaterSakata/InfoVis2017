@@ -76,7 +76,7 @@ function main()
         displayG.setValue(this.value);
     }, false);
 
-    sliderR.addEventListener("change", function() {
+    sliderG.addEventListener("change", function() {
         // マウスアップした際のイベント
         RGB = [ RGB[0], this.value, RGB[2] ];
         displayG.setValue(this.value);
