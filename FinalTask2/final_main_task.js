@@ -8,6 +8,8 @@ function main()
 
     var isovalue = 128;
 
+    var RGB = [ 1.0, 0.0, -1.0 ];
+
     var slider = document.querySelector(".slider"), 
         display = new Display(".value", 128);
 
@@ -20,25 +22,21 @@ function main()
         // マウスアップした際のイベント
         isovalue = this.value;
         display.setValue(this.value);
-        screen.scene.remove( surfaces );
-        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
-        screen.scene.add( surfaces );
+        redrawIsosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading, RGB );
     }, false);
+
+
 
     var lamb_button = document.getElementById("lamb_ref");
     var phong_button = document.getElementById("phong_ref");
 
     lamb_button.addEventListener("click", function() {
         reflection = true;
-        screen.scene.remove( surfaces );
-        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
-        screen.scene.add( surfaces );
+        redrawIsosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading, RGB );
     }, false);
     phong_button.addEventListener("click", function() {
         reflection = false;
-        screen.scene.remove( surfaces );
-        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
-        screen.scene.add( surfaces );
+        redrawIsosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading, RGB );
     }, false);
 
     var gouraud_button = document.getElementById("gouraud_shad");
@@ -46,16 +44,64 @@ function main()
 
     gouraud_button.addEventListener("click", function() {
         shading = true;
-        screen.scene.remove( surfaces );
-        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
-        screen.scene.add( surfaces );
+        redrawIsosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading, RGB );
     }, false);
     phong_shad_button.addEventListener("click", function() {
         shading = false;
-        screen.scene.remove( surfaces );
-        surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
-        screen.scene.add( surfaces );
+        redrawIsosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading, RGB );
     }, false);
+
+
+
+    var sliderR = document.querySelector(".sliderR"), 
+        displayR = new Display(".valueR", 1);
+
+    sliderR.addEventListener("input", function() {
+        // ドラッグ中のイベント
+        displayR.setValue(this.value);
+    }, false);
+
+    sliderR.addEventListener("change", function() {
+        // マウスアップした際のイベント
+        RGB = [ this.value, RGB[1], RGB[2] ];
+        displayR.setValue(this.value);
+        redrawIsosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading, RGB );
+    }, false);
+
+    var sliderG = document.querySelector(".sliderG"), 
+        displayG = new Display(".valueG", 0);
+
+    sliderG.addEventListener("input", function() {
+        // ドラッグ中のイベント
+        displayG.setValue(this.value);
+    }, false);
+
+    sliderR.addEventListener("change", function() {
+        // マウスアップした際のイベント
+        RGB = [ RGB[0], this.value, RGB[2] ];
+        displayG.setValue(this.value);
+        redrawIsosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading, RGB );
+    }, false);
+
+    var sliderB = document.querySelector(".sliderB"), 
+        displayB = new Display(".valueB", -1);
+
+    sliderB.addEventListener("input", function() {
+        // ドラッグ中のイベント
+        displayB.setValue(this.value);
+    }, false);
+
+    sliderB.addEventListener("change", function() {
+        // マウスアップした際のイベント
+        RGB = [ RGB[0], RGB[1], this.value ];
+        displayB.setValue(this.value);
+        redrawIsosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading, RGB );
+    }, false);
+
+
+
+
+
 
     screen.init( volume, {
         width: window.innerWidth * 0.8,
@@ -66,7 +112,7 @@ function main()
     var bounds = Bounds( volume );
     screen.scene.add( bounds );
 
-    var surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading );
+    var surfaces = Isosurfaces( volume, isovalue, screen.light, screen.camera, reflection, shading, RGB );
     screen.scene.add( surfaces );
 
     document.addEventListener( 'mousemove', function() {
@@ -103,5 +149,10 @@ function main()
         };
     }
 
+    function redrawIsosurfaces(volume, isovalue, light, camera, reflection, shading, RGB) {
+        screen.scene.remove( surfaces );
+        surfaces = Isosurfaces( volume, isovalue, light, camera, reflection, shading, RGB );
+        screen.scene.add( surfaces );        
+    }
 
 }

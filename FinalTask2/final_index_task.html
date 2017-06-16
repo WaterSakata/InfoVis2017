@@ -16,7 +16,23 @@
 
     	<label>Shading:</label><br />
     	<input type="radio" id="gouraud_shad" name="shading" value="gouraud_shading" checked>Gouraud Shading<br />
-    	<input type="radio" id="phong_shad" name="shading" value="phong_shading">Phong Shading
+    	<input type="radio" id="phong_shad" name="shading" value="phong_shading">Phong Shading<br />
+
+    	<br />
+    	<br />
+    	
+    	<label>Colormap:</label><br />
+    	<label>R Position:</label>
+    	<input class="sliderR" type="range" id="colorR" name="colormapR" min="-1" max="1" step="0.02" value="1">
+    	<span class="valueR"></span><br />
+
+    	<label>G Position:</label>
+    	<input class="sliderG" type="range" id="colorG" name="colormapG" min="-1" max="1" step="0.02" value="0">
+    	<span class="valueG"></span><br />
+
+    	<label>B Position:</label>
+    	<input class="sliderB" type="range" id="colorB" name="colormapB" min="-1" max="1" step="0.02" value="-1">
+    	<span class="valueB"></span><br />
     </div>
 	<script src="./lib/three.min.js"></script>
 	<script src="./lib/Lut.js"></script>
